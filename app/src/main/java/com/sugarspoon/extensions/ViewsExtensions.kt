@@ -4,6 +4,10 @@ import android.view.View
 import android.view.View.*
 import android.widget.EditText
 
+/**
+ * Created by Evandro Costa 12/07/2020
+ */
+
 //EditText
 fun EditText.text(text: String) {
     this.setText(text)
@@ -15,6 +19,10 @@ fun EditText.hintEmail() {
 
 fun EditText.hintPassword() {
     this.hint = "******"
+}
+
+fun EditText.addTextMask(mask: String) {
+    addTextChangedListener(MaskedText.insertMasked(mask, this))
 }
 
 //GenericViews

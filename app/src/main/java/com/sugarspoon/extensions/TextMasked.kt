@@ -3,49 +3,26 @@ package com.sugarspoon.extensions
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import com.sugarspoon.extensions.MaskedType.Companion.CEL_PHONE
+import com.sugarspoon.extensions.MaskedType.Companion.CEP
+import com.sugarspoon.extensions.MaskedType.Companion.CNPJ
+import com.sugarspoon.extensions.MaskedType.Companion.CPF
+import com.sugarspoon.extensions.MaskedType.Companion.CPF_OR_CNPJ
+import com.sugarspoon.extensions.MaskedType.Companion.DATE
+import com.sugarspoon.extensions.MaskedType.Companion.HOUR
+import com.sugarspoon.extensions.MaskedType.Companion.PHONE
+import com.sugarspoon.extensions.MaskedType.Companion.RG
 
-object TextMask {
-    const val CEP_MASK = "#####-###"
-    const val CPF_MASK = "###.###.###-##"
-    const val PHONE_MASK = "(##) ####-#####"
-    const val CPF_OR_CNPJ_MASK = "###.###.###-###"
-    const val CEL_PHONE_MASK = "(##) #####-####"
-    const val DATE_MASK = "##/##/####"
-    const val CNPJ_MASK = "##.###.###/####-##"
-    const val HOUR_MASK = "##:##"
-    const val CREDIT_CARD_DATE_MASK = "##/##"
+/**
+ * Created by Evandro Costa 12/07/2020
+ */
 
-    fun unmask(s: String): String {
-        return s.replace("[.]".toRegex(), "").replace("[-]".toRegex(), "")
-            .replace("[/]".toRegex(), "").replace("[(]".toRegex(), "")
-            .replace("[)]".toRegex(), "").replace(" ".toRegex(), "")
-            .replace("[:]".toRegex(), "")
-    }
+object MaskedText {
 
-    fun mask(mask: String, stringToMask: String): String {
-        var i = 0
-        val masked = StringBuilder()
-        for (m in mask.toCharArray()) {
-            if (m != '#') {
-                masked.append(m)
-            } else {
-                try {
-                    masked.append(stringToMask[i])
-                } catch (e: Exception) {
-                    break
-                }
-                i++
-            }
-        }
-        return masked.toString()
-    }
-
-    fun insert(mask: String, edtTxt: EditText): TextWatcher {
-
+    fun insertMasked(mask: String, edt: EditText): TextWatcher {
         return object : TextWatcher {
             var isUpdating = false
             var old = ""
-            var maskAux = mask
 
             override fun onTextChanged(
                 s: CharSequence, start: Int, before: Int,
@@ -58,48 +35,75 @@ object TextMask {
             ) { }
 
             override fun afterTextChanged(s: Editable) {
-                if (mask == PHONE_MASK) {
-                    maskAux = if (unmask(s.toString()).length > 10) {
-                        CEL_PHONE_MASK
-                    } else {
-                        PHONE_MASK
-                    }
-                } else if (mask == CNPJ_MASK) {
-                    maskAux = if (unmask(s.toString()).length > 11) {
-                        CNPJ_MASK
-                    } else {
-                        CPF_MASK
-                    }
-                }
+                val maskAux = filterMask(mask, unMask(s.toString()).length)
+                val digits = unMask(s.toString())
+                var masked = ""
 
-                val str = unmask(s.toString())
-                var mask = ""
                 if (isUpdating) {
-                    old = str
+                    old = digits
                     isUpdating = false
                     return
                 }
-                var i = 0
-                if (str.length != old.length) {
+                var selector = 0
+
+                if (digits.length != old.length) {
                     for (m in maskAux.toCharArray()) {
                         if (m != '#') {
-                            mask += m
+                            masked += m
                         } else {
-                            mask += try {
-                                str[i]
+                            masked += try {
+                                digits[selector]
                             } catch (e: Exception) {
                                 break
                             }
-                            i++
+                            selector++
                         }
                     }
                 } else {
-                    mask = s.toString()
+                    masked = s.toString()
                 }
+
                 isUpdating = true
-                edtTxt.setText(mask)
-                edtTxt.setSelection(mask.length)
+                edt.setText(masked)
+                edt.setSelection(masked.length)
             }
         }
     }
+
+    private fun unMask(s: String): String {
+        return s.replace("[.]".toRegex(), "").replace("[-]".toRegex(), "")
+            .replace("[/]".toRegex(), "").replace("[(]".toRegex(), "")
+            .replace("[)]".toRegex(), "").replace(" ".toRegex(), "")
+            .replace("[:]".toRegex(), "")
+    }
+
+    private fun filterMask(mask: String, size: Int): String {
+        return when (mask) {
+            RG -> RG
+            CPF -> CPF
+            CNPJ -> CNPJ
+            CPF_OR_CNPJ -> filterDocument(size)
+            CEP -> CEP
+            DATE -> DATE
+            HOUR -> HOUR
+            PHONE -> filterPhone(size)
+            else -> ""
+        }
+    }
+
+    private fun filterPhone(size: Int): String {
+        return when(size) {
+            in 0..10 -> PHONE
+            else -> CEL_PHONE
+        }
+    }
+
+    private fun filterDocument(size: Int): String {
+        return when (size) {
+            in 0..11 -> CPF
+            else -> CNPJ
+        }
+    }
+
 }
+

@@ -5,6 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 
+/**
+ * Created by Evandro Costa 12/07/2020
+ */
+
 inline fun <reified T> Activity.navigateTo() {
     startActivity(Intent(this, T::class.java))
 }
