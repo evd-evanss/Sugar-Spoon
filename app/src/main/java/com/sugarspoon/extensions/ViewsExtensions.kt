@@ -22,7 +22,7 @@ fun EditText.hintPassword() {
 }
 
 fun EditText.addTextMask(mask: String) {
-    addTextChangedListener(MaskedText.insertMasked(mask, this))
+    addTextChangedListener(MaskedText.applyMasked(mask, this))
 }
 
 //GenericViews

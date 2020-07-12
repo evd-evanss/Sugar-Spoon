@@ -19,7 +19,7 @@ import com.sugarspoon.extensions.MaskedType.Companion.RG
 
 object MaskedText {
 
-    fun insertMasked(mask: String, edt: EditText): TextWatcher {
+    fun applyMasked(mask: String, edt: EditText): TextWatcher {
         return object : TextWatcher {
             var isUpdating = false
             var old = ""
