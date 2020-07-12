@@ -11,13 +11,9 @@ fun String.isDateValid() : Boolean {
     val cal = Calendar.getInstance()
     val currentYear = cal.get(Calendar.YEAR)
     if(this.length < 8) return false
-    Log.d("String-Extensions", "ano: $currentYear")
-    Log.d("String-Extensions", "size: ${this.length }")
-
     val day = this.take(2)
     val month = this.substring(2).take(2)
     val year = this.substring(4).take(4)
-    println("Aniversário: $day/$month/$year")
     return when{
         day.itsBetween(1, 31) && month.itsBetween(1, 12) && year.itsBetween(1900, currentYear) -> true
         else -> false
