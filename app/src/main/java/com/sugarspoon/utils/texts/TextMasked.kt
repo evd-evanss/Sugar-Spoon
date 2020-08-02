@@ -1,17 +1,17 @@
-package com.sugarspoon.extensions
+package com.sugarspoon.utils.texts
 
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import com.sugarspoon.extensions.MaskedType.Companion.CEL_PHONE
-import com.sugarspoon.extensions.MaskedType.Companion.CEP
-import com.sugarspoon.extensions.MaskedType.Companion.CNPJ
-import com.sugarspoon.extensions.MaskedType.Companion.CPF
-import com.sugarspoon.extensions.MaskedType.Companion.CPF_OR_CNPJ
-import com.sugarspoon.extensions.MaskedType.Companion.DATE
-import com.sugarspoon.extensions.MaskedType.Companion.HOUR
-import com.sugarspoon.extensions.MaskedType.Companion.PHONE
-import com.sugarspoon.extensions.MaskedType.Companion.RG
+import com.sugarspoon.utils.texts.MaskedType.Companion.CEL_PHONE
+import com.sugarspoon.utils.texts.MaskedType.Companion.CEP
+import com.sugarspoon.utils.texts.MaskedType.Companion.CNPJ
+import com.sugarspoon.utils.texts.MaskedType.Companion.CPF
+import com.sugarspoon.utils.texts.MaskedType.Companion.CPF_OR_CNPJ
+import com.sugarspoon.utils.texts.MaskedType.Companion.DATE
+import com.sugarspoon.utils.texts.MaskedType.Companion.HOUR
+import com.sugarspoon.utils.texts.MaskedType.Companion.PHONE
+import com.sugarspoon.utils.texts.MaskedType.Companion.RG
 
 /**
  * Created by Evandro Costa 12/07/2020
@@ -35,8 +35,12 @@ object MaskedText {
             ) { }
 
             override fun afterTextChanged(s: Editable) {
-                val maskAux = filterMask(mask, unMask(s.toString()).length)
-                val digits = unMask(s.toString())
+                val maskAux = filterMask(
+                    mask,
+                    unMask(s.toString()).length
+                )
+                val digits =
+                    unMask(s.toString())
                 var masked = ""
 
                 if (isUpdating) {
@@ -82,7 +86,9 @@ object MaskedText {
             RG -> RG
             CPF -> CPF
             CNPJ -> CNPJ
-            CPF_OR_CNPJ -> filterDocument(size)
+            CPF_OR_CNPJ -> filterDocument(
+                size
+            )
             CEP -> CEP
             DATE -> DATE
             HOUR -> HOUR

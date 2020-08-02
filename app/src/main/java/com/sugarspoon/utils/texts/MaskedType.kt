@@ -1,4 +1,4 @@
-package com.sugarspoon.extensions
+package com.sugarspoon.utils.texts
 
 /**
  * Created by Evandro Costa 12/07/2020

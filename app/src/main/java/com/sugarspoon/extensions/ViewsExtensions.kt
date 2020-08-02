@@ -3,6 +3,7 @@ package com.sugarspoon.extensions
 import android.view.View
 import android.view.View.*
 import android.widget.EditText
+import com.sugarspoon.utils.texts.MaskedText
 
 /**
  * Created by Evandro Costa 12/07/2020
@@ -11,14 +12,6 @@ import android.widget.EditText
 //EditText
 fun EditText.text(text: String) {
     this.setText(text)
-}
-
-fun EditText.hintEmail() {
-    this.hint = "email@gmail.com"
-}
-
-fun EditText.hintPassword() {
-    this.hint = "******"
 }
 
 fun EditText.addTextMask(mask: String) {
