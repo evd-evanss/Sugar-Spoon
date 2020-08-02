@@ -1,6 +1,6 @@
 # Sugar-Spoon - alpha 1.0.0
 Modulo para otimizar a criação de Apps com Kotlin
-https://github.com/evd-evanss/sugar-spoon/master/sugar-spoon.png
+![ScreenShot](https://raw.github.com/evd-evanss/sugar-spoon/master/sugar-spoon.png)
 
 ## O objetivo deste módulo é otimizar o desenvolvimento de um aplicativo incluindo recursos para tornar o seu código mais limpo, além de que você vai contar com muitos recursos úteis para facilitar o seu dia dia
 
